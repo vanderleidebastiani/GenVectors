@@ -5,7 +5,7 @@
 
 \docType{data}
 
-\title{sehv - Small Example for HaploVectors}
+\title{sehv - Simple Example for HaploVectors}
 
 \description{Hypothetical data for running examples.}
 
