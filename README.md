@@ -6,5 +6,5 @@ To install the latest version of this package, use [`devtools`](https://github.c
 
 ```r
 require(devtools)
-install_github("vanderleidebastiani/HaploVectors”)
+install_github("vanderleidebastiani/HaploVectors")
 ```
