@@ -3,7 +3,7 @@ Type: Package
 Title: HaploVectors an Integrative Analytical Tool for Phylogeography
 Version: 0.0.1
 Date: 2018-05-24
-Author: Leandro da Silva Duarte and Vanderlei Julio Debastiani
+Author: Leandro da Silva Duarte, Jacqueline de Souza Lima, Renan Maestri, Vanderlei Julio Debastiani and Rosane Garcia Collevatti
 Maintainer: Vanderlei Julio Debastiani <vanderleidebastiani@yahoo.com.br>
 Description: Function to extracts haplotypic eigenvectors and performing null model-based tests (available in <https://github.com/vanderleidebastiani/HaploVectors>).
 License: GPL (>= 2)
