@@ -1,6 +1,6 @@
 #' @title HaploNetDist 
 #' 
-#' @description Function to extracts the haplotypes, computes pairwise distances between haplotypes, haplotypic network and computes the frequency of each haplotype per locality.
+#' @description Function to extract haplotypes, compute pairwise distances between haplotypes, build haplotypic networks and compute the frequency of each haplotype per locality.
 #' 
 #' @encoding UTF-8
 #' @importFrom ape dist.dna
@@ -8,13 +8,13 @@
 #' @importFrom pegas haploNet
 #' @param x A set of DNA sequences (as an object of class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}}.
 #' @param pop A matrix describing the incidence of each individual (columns) in a given locality (rows).
-#' @param dist.model A character string used by the function \code{\link{dist.dna}} to specifying the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").
-#' @param checkdata Logical argument (TRUE or FALSE) to check if individual sequence in the pop data follows the same order as the set of DNA sequences (Default checkdata = TRUE).
-#' @param ... Aditional arguments to function \code{\link{dist.dna}}.
+#' @param dist.model A character string used by the function \code{\link{dist.dna}} to specify the evolutionary model to be used to compute pairwise distances from DNA sequences (default dist.model = "N").
+#' @param checkdata Logical argument (TRUE or FALSE) to check if individual sequences in the pop data follow the same order as in the set of DNA sequences (Default checkdata = TRUE).
+#' @param ... Additional arguments to the function \code{\link{dist.dna}}.
 #' @return A list with: \item{call}{Arguments used.} 
-#' \item{haplotypes}{A list with haplotypes index that identify each observation that share the same haplotype.} 
+#' \item{haplotypes}{A list with haplotypes indices that identify each observation sharing the same haplotype.} 
 #' \item{haplotype.distances}{A matrix with pairwise distances between haplotypes.} 
-#' \item{haplotype.per.locality}{A matrix with frequency of each haplotype per locality (\bold{\eqn{W}}).} 
+#' \item{haplotype.per.locality}{A matrix with the frequency of each haplotype per locality (\bold{\eqn{W}}).} 
 #' \item{haplotype.network}{A matrix with haplotype connections described in the network (\bold{\eqn{D_n}}).}
 #' @seealso \code{\link{HaploVectors}}
 #' @examples 

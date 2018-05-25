@@ -1,34 +1,34 @@
 #' @title HaploVectors
 #' 
-#' @description Function to extracts haplotypic eigenvectors and performing null model-based tests.
+#' @description Function to extract haplotypic eigenvectors and perform null model-based tests.
 #' 
 #' @encoding UTF-8
 #' @importFrom PCPS pcps pcps.sig matrix.p.sig
 #' @importFrom stats as.formula
 #' @param x A set of DNA sequences (as an object of class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}}.
 #' @param pop A matrix describing the incidence of each individual (columns) in a given locality (rows).
-#' @param dist.model A character string used by the function \code{\link{dist.dna}} to specifying the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").
-#' @param log.frequencies Logical argument (TRUE or FALSE) to specify if apply transformation of natural logarithms plus one in haplotype per locality data (Default log.frequencies = TRUE).
-#' @param squareroot.network Logical argument (TRUE or FALSE) to specify if use square root in haplotype network (Default squareroot.network = TRUE).
-#' @param method Dissimilarity index to aplly in matrix P which describes localities by their haplotypic composition, as accepted by vegdist function in vegan package (Default method = "euclidean").
+#' @param dist.model A character string used by the function \code{\link{dist.dna}} to specify the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").
+#' @param log.frequencies Logical argument (TRUE or FALSE) to specify if transformation of natural logarithms plus one in haplotype per locality data must be applied  (Default log.frequencies = TRUE).
+#' @param squareroot.network Logical argument (TRUE or FALSE) to specify if apply square root on haplotype network (Default squareroot.network = TRUE).
+#' @param method Dissimilarity index to apply in matrix P, which describes localities by their haplotypic composition, as accepted by vegdist function in vegan package (Default method = "euclidean").
 #' @param squareroot.dis Logical argument (TRUE or FALSE) to specify if use square root of dissimilarity index in matrix P (Default squareroot.dis = TRUE).
 #' @param choices Axes for re-scaling. Choices must have length equal to two (Default choices = c(1, 2)).
 #' @param analysis Type of analysis, partial match to "none", "glm", "adonis" (Default analysis = "none").
-#' @param envir A matrix with environmental variables for each population, with variables as columns and locality as rows.
-#' @param formula An object of class formula quotation marks used in GLM analysis. See Details.
+#' @param envir A matrix with environmental variables for each population, with variables as columns and localities as rows.
+#' @param formula An object of class formula with quotation marks, used in GLM analysis. See Details.
 #' @param AsFactors Encode an environmental variable as factor used in GLM analysis. The sequence is the same that in the environmental data matrix. See Details.
-#' @param runs Number of permutations for assessing significance.
+#' @param runs Number of permutations for assessing probability of type I error.
 #' @param ... Aditional arguments to function \code{\link{matrix.p.sig}} and \code{\link{pcps.sig}}.
 #' @return A list with: \item{call}{Arguments used.} 
 #' \item{haplotypes}{A list with haplotypes index that identify each observation that share the same haplotype.} 
 #' \item{haplotype.distances}{A matrix with pairwise distances between haplotypes.} 
 #' \item{haplotype.per.locality}{A matrix with frequency of each haplotype per locality (\bold{\eqn{W}}).} 
 #' \item{haplotype.network}{A matrix with haplotype connections described in the network (\bold{\eqn{D_n}}).} 
-#' \item{vectors}{The haplotypic eigenvectors (haplovectors).} 
-#' \item{values}{The eigenvalues, relative eigenvalues and cumulative relative eigenvalues.} 
+#' \item{vectors}{Haplotypic eigenvectors (haplovectors).} 
+#' \item{values}{Eigenvalues, relative eigenvalues and cumulative relative eigenvalues.} 
 #' \item{correlations}{Correlations between haplotypic eigenvectors and haplotypes.} 
 #' \item{P}{Matrix of haplotypic composition (\bold{\eqn{P}}).} 
-#' \item{scores.haplotypes}{Scores for biplot graphics.} 
+#' \item{scores.haplotypes}{Scores for biplots.} 
 #' \item{envir.class}{The class of each variable in environmental data in glm.}
 #' \item{formula}{The formula used in glm.} 
 #' \item{model}{The model, an object of class glm or adonis.}
@@ -37,11 +37,11 @@
 #' \item{p.taxa.shuffle}{The p value for the taxa shuffle null model.}
 #' @details 
 #' The item formula is an expression of the form haplovector.1 ~ envir. The response term must be the 
-#' haplovector name, for example haplovector.1, haplovector.2, haplovector.12.
+#' haplovector name, for example, haplovector.1, haplovector.2, haplovector.12, etc.
 #' 
-#' The item AsFactors changes a environmental variable for the class \code{\link{factor}}. The 
+#' The item AsFactors changes an environmental variable for the class \code{\link{factor}}. The 
 #' sequence is the same that in the environmental data matrix, not the order in the formula.
-#' Use \code{\link{c}} to combine more that one variable.
+#' Use \code{\link{c}} to combine more than one variable.
 #' @seealso \code{\link{HaploNetDist}}
 #' @examples 
 #' data(sehv)

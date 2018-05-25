@@ -12,21 +12,21 @@ HaploNetDist(x, pop, dist.model = "N", checkdata = TRUE, ...)
 
 \item{pop}{A matrix describing the incidence of each individual (columns) in a given locality (rows).}
 
-\item{dist.model}{A character string used by the function \code{\link{dist.dna}} to specifying the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").}
+\item{dist.model}{A character string used by the function \code{\link{dist.dna}} to specify the evolutionary model to be used to compute pairwise distances from DNA sequences (default dist.model = "N").}
 
-\item{checkdata}{Logical argument (TRUE or FALSE) to check if individual sequence in the pop data follows the same order as the set of DNA sequences (Default checkdata = TRUE).}
+\item{checkdata}{Logical argument (TRUE or FALSE) to check if individual sequences in the pop data follow the same order as in the set of DNA sequences (Default checkdata = TRUE).}
 
-\item{...}{Aditional arguments to function \code{\link{dist.dna}}.}
+\item{...}{Additional arguments to the function \code{\link{dist.dna}}.}
 }
 \value{
 A list with: \item{call}{Arguments used.} 
-\item{haplotypes}{A list with haplotypes index that identify each observation that share the same haplotype.} 
+\item{haplotypes}{A list with haplotypes indices that identify each observation sharing the same haplotype.} 
 \item{haplotype.distances}{A matrix with pairwise distances between haplotypes.} 
-\item{haplotype.per.locality}{A matrix with frequency of each haplotype per locality (\bold{\eqn{W}}).} 
+\item{haplotype.per.locality}{A matrix with the frequency of each haplotype per locality (\bold{\eqn{W}}).} 
 \item{haplotype.network}{A matrix with haplotype connections described in the network (\bold{\eqn{D_n}}).}
 }
 \description{
-Function to extracts the haplotypes, computes pairwise distances between haplotypes, haplotypic network and computes the frequency of each haplotype per locality.
+Function to extract haplotypes, compute pairwise distances between haplotypes, build haplotypic networks and compute the frequency of each haplotype per locality.
 }
 \examples{
 data(sehv)

@@ -15,13 +15,13 @@ HaploVectors(x, pop, dist.model = "N", log.frequencies = TRUE,
 
 \item{pop}{A matrix describing the incidence of each individual (columns) in a given locality (rows).}
 
-\item{dist.model}{A character string used by the function \code{\link{dist.dna}} to specifying the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").}
+\item{dist.model}{A character string used by the function \code{\link{dist.dna}} to specify the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").}
 
-\item{log.frequencies}{Logical argument (TRUE or FALSE) to specify if apply transformation of natural logarithms plus one in haplotype per locality data (Default log.frequencies = TRUE).}
+\item{log.frequencies}{Logical argument (TRUE or FALSE) to specify if transformation of natural logarithms plus one in haplotype per locality data must be applied  (Default log.frequencies = TRUE).}
 
-\item{squareroot.network}{Logical argument (TRUE or FALSE) to specify if use square root in haplotype network (Default squareroot.network = TRUE).}
+\item{squareroot.network}{Logical argument (TRUE or FALSE) to specify if apply square root on haplotype network (Default squareroot.network = TRUE).}
 
-\item{method}{Dissimilarity index to aplly in matrix P which describes localities by their haplotypic composition, as accepted by vegdist function in vegan package (Default method = "euclidean").}
+\item{method}{Dissimilarity index to apply in matrix P, which describes localities by their haplotypic composition, as accepted by vegdist function in vegan package (Default method = "euclidean").}
 
 \item{squareroot.dis}{Logical argument (TRUE or FALSE) to specify if use square root of dissimilarity index in matrix P (Default squareroot.dis = TRUE).}
 
@@ -29,13 +29,13 @@ HaploVectors(x, pop, dist.model = "N", log.frequencies = TRUE,
 
 \item{analysis}{Type of analysis, partial match to "none", "glm", "adonis" (Default analysis = "none").}
 
-\item{envir}{A matrix with environmental variables for each population, with variables as columns and locality as rows.}
+\item{envir}{A matrix with environmental variables for each population, with variables as columns and localities as rows.}
 
-\item{formula}{An object of class formula quotation marks used in GLM analysis. See Details.}
+\item{formula}{An object of class formula with quotation marks, used in GLM analysis. See Details.}
 
 \item{AsFactors}{Encode an environmental variable as factor used in GLM analysis. The sequence is the same that in the environmental data matrix. See Details.}
 
-\item{runs}{Number of permutations for assessing significance.}
+\item{runs}{Number of permutations for assessing probability of type I error.}
 
 \item{...}{Aditional arguments to function \code{\link{matrix.p.sig}} and \code{\link{pcps.sig}}.}
 }
@@ -45,11 +45,11 @@ A list with: \item{call}{Arguments used.}
 \item{haplotype.distances}{A matrix with pairwise distances between haplotypes.} 
 \item{haplotype.per.locality}{A matrix with frequency of each haplotype per locality (\bold{\eqn{W}}).} 
 \item{haplotype.network}{A matrix with haplotype connections described in the network (\bold{\eqn{D_n}}).} 
-\item{vectors}{The haplotypic eigenvectors (haplovectors).} 
-\item{values}{The eigenvalues, relative eigenvalues and cumulative relative eigenvalues.} 
+\item{vectors}{Haplotypic eigenvectors (haplovectors).} 
+\item{values}{Eigenvalues, relative eigenvalues and cumulative relative eigenvalues.} 
 \item{correlations}{Correlations between haplotypic eigenvectors and haplotypes.} 
 \item{P}{Matrix of haplotypic composition (\bold{\eqn{P}}).} 
-\item{scores.haplotypes}{Scores for biplot graphics.} 
+\item{scores.haplotypes}{Scores for biplots.} 
 \item{envir.class}{The class of each variable in environmental data in glm.}
 \item{formula}{The formula used in glm.} 
 \item{model}{The model, an object of class glm or adonis.}
@@ -58,15 +58,15 @@ A list with: \item{call}{Arguments used.}
 \item{p.taxa.shuffle}{The p value for the taxa shuffle null model.}
 }
 \description{
-Function to extracts haplotypic eigenvectors and performing null model-based tests.
+Function to extract haplotypic eigenvectors and perform null model-based tests.
 }
 \details{
 The item formula is an expression of the form haplovector.1 ~ envir. The response term must be the 
-haplovector name, for example haplovector.1, haplovector.2, haplovector.12.
+haplovector name, for example, haplovector.1, haplovector.2, haplovector.12, etc.
 
-The item AsFactors changes a environmental variable for the class \code{\link{factor}}. The 
+The item AsFactors changes an environmental variable for the class \code{\link{factor}}. The 
 sequence is the same that in the environmental data matrix, not the order in the formula.
-Use \code{\link{c}} to combine more that one variable.
+Use \code{\link{c}} to combine more than one variable.
 }
 \examples{
 data(sehv)
