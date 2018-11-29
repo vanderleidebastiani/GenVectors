@@ -1,4 +1,4 @@
-## HaploVectors 0.0.1
+## HaploVectors 0.0.2
 
 ## Installation
   
@@ -8,3 +8,5 @@ To install the latest version of this package, use [`devtools`](https://github.c
 require(devtools)
 install_github("vanderleidebastiani/HaploVectors")
 ```
+
+This package depends of last version of [`PCPS`](https://github.com/vanderleidebastiani/PCPS).
