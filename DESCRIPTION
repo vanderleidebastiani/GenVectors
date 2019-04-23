@@ -1,11 +1,11 @@
-Package: HaploVectors
+Package: GenVectors
 Type: Package
-Title: HaploVectors an Integrative Analytical Tool for Phylogeography
-Version: 0.0.2
-Date: 2018-11-29
+Title: GenVectors an Integrative Analytical Tool for Phylogeography
+Version: 0.0.1
+Date: 2019-04-23
 Author: Leandro da Silva Duarte, Jacqueline de Souza Lima, Renan Maestri, Vanderlei Julio Debastiani and Rosane Garcia Collevatti
 Maintainer: Vanderlei Julio Debastiani <vanderleidebastiani@yahoo.com.br>
-Description: Function to extract haplotypic eigenvectors and perform null model-based tests (available at <https://github.com/vanderleidebastiani/HaploVectors>).
+Description: Function to extract eigenvectors and perform null model-based tests (available at <https://github.com/vanderleidebastiani/GenVectors>).
 License: GPL (>= 2)
 Encoding: UTF-8
 Depends:
@@ -13,12 +13,12 @@ Depends:
 Imports:
     ape,
     pegas,
-    reshape
+    adegenet
 RoxygenNote: 6.1.1
 Collate: 
-    'HaploNetDist.R'
+    'SNPVectors.R'
     'HaploVectors.R'
-    'matrix.p.sig.mod.R'
-    'pcps.sig.mod.R'
-    'mutate.names.matrix.p.null.R'
-    'print.HaploVectors.R'
+    'GenVectors.R'
+    'HaploNetDist.R'
+    'SNPDist.R'
+    'print.GenVectors.R'
