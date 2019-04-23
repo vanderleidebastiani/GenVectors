@@ -75,6 +75,17 @@
 #' All functions and methods available in \code{\link{matrix.p.sig}} or \code{\link{pcps.sig}} could be used here, 
 #' considering the differences mentioned above. 
 #' 
+#' \strong{The argument analysis.method}
+#' 
+#' The type of analysis performed by this function is specified using the argument \emph{analysis.method}. The current version 
+#' of package includes ten predefined function, however additional small functions can be easy specify. All
+#' this function uses the environmental variables to analyze the association between haplotypic/genetic
+#' composition and environmental predictors. For haplotypic/genetic matrix analysis the predefined 
+#' functions available are \emph{"mantel"}, \emph{"adonis"}, \emph{"adonis2.global"} and \emph{"adonis2.margin"}. For haplovectors and SNPvectors
+#' analysis the predefined functions available are \emph{"glm"}, \emph{"rda"}, \emph{"gls.marginal"}, 
+#' \emph{"gls.sequential"}, \emph{"lme.marginal"} and \emph{"lme.sequential"}.
+#' 
+#' 
 #' @seealso \code{\link{HaploNetDist}}, \code{\link{SNPDist}}, \code{\link{matrix.p.sig}}, \code{\link{pcps.sig}}
 #' @examples 
 #' data(segv)
