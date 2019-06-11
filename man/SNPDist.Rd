@@ -17,9 +17,6 @@ A list with: \item{call}{Arguments used.}
 \description{
 Function to computes distances between alleles. This function use the function \code{\link{propShared}} of package adegenet.
 }
-\examples{
-data(segv)
-}
 \seealso{
 \code{\link{SNPVectors}}
 }

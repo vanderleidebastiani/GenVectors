@@ -8,8 +8,6 @@
 #' @return A list with: \item{call}{Arguments used.} 
 #' \item{SNP.distances}{A matrix of distances between alleles.} 
 #' @seealso \code{\link{SNPVectors}}
-#' @examples 
-#' data(segv)
 #' @export
 SNPDist <- function(x){
   res <- list(call = match.call())

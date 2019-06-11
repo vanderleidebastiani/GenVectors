@@ -2,7 +2,7 @@
 
 S3method(print,GenVectors)
 export(GenVectors)
-export(HaploNetDist)
+export(HaploDist)
 export(HaploVectors)
 export(SNPDist)
 export(SNPVectors)

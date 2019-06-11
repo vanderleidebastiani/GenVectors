@@ -2,7 +2,7 @@ Package: GenVectors
 Type: Package
 Title: GenVectors an Integrative Analytical Tool for Phylogeography
 Version: 0.0.1
-Date: 2019-04-23
+Date: 2019-06-11
 Author: Leandro da Silva Duarte, Jacqueline de Souza Lima, Renan Maestri, Vanderlei Julio Debastiani and Rosane Garcia Collevatti
 Maintainer: Vanderlei Julio Debastiani <vanderleidebastiani@yahoo.com.br>
 Description: Function to extract eigenvectors and perform null model-based tests (available at <https://github.com/vanderleidebastiani/GenVectors>).
@@ -19,6 +19,6 @@ Collate:
     'SNPVectors.R'
     'HaploVectors.R'
     'GenVectors.R'
-    'HaploNetDist.R'
+    'HaploDist.R'
     'SNPDist.R'
     'print.GenVectors.R'

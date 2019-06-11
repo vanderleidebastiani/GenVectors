@@ -10,17 +10,17 @@
 \title{HaploVectors, SNPVectors and GenVectors}
 \usage{
 SNPVectors(x, pop, checkdata = TRUE, method = "euclidean",
-  squareroot.dis = TRUE, choices = c(1, 2), analysis = "none",
-  analysis.method = "none", envir, choices.analysis, runs = 999, ...)
+  squareroot.dis = TRUE, choices = c(1, 2), analysis = "none", envir,
+  formula, runs = 999, ...)
 
 HaploVectors(x, pop, dist.model = "N", checkdata = TRUE,
   log.frequencies = TRUE, method = "euclidean",
-  squareroot.dis = TRUE, choices = c(1, 2), analysis = "none",
-  analysis.method = "none", envir, choices.analysis, runs = 999, ...)
+  squareroot.dis = TRUE, choices = c(1, 2), analysis = "none", envir,
+  formula, runs = 999, ...)
 
 GenVectors(pop, distances, checkdata = TRUE, method = "euclidean",
-  squareroot.dis = TRUE, choices = c(1, 2), analysis = "none",
-  analysis.method = "none", envir, choices.analysis, runs = 999, ...)
+  squareroot.dis = TRUE, choices = c(1, 2), analysis = "none", envir,
+  formula, runs = 999, ...)
 
 \method{print}{GenVectors}(x, ...)
 }
@@ -31,19 +31,17 @@ GenVectors(pop, distances, checkdata = TRUE, method = "euclidean",
 
 \item{checkdata}{Logical argument (TRUE or FALSE) to check if individual sequences in the pop data follow the same order as in the set of DNA sequences (Default checkdata = TRUE).}
 
-\item{method}{Dissimilarity index to apply in matrix P, which describes localities by their haplotypic/genetic composition, as accepted by vegdist function in vegan package (Default method = "euclidean").}
+\item{method}{Dissimilarity index to apply in matrix P, which describes localities by their haplotypic/SNP/genetic composition, as accepted by vegdist function in vegan package (Default method = "euclidean").}
 
 \item{squareroot.dis}{Logical argument (TRUE or FALSE) to specify if use square root of dissimilarity index in matrix P (Default squareroot.dis = TRUE).}
 
-\item{choices}{Axes for re-scaling. Choices must have length equal to two (Default choices = c(1, 2)).}
+\item{choices}{Axes for re-scaling and to used in analysis. Choices must have length equal to two (Default choices = c(1, 2)).}
 
-\item{analysis}{Type of analysis, partial match to "none", "matrix" or "vector" (Default analysis = "none").}
-
-\item{analysis.method}{Type of method to perform the analysis. See Details and Examples (Default analysis.method = "none").}
+\item{analysis}{Type of analysis, partial match to "none", "adonis" or "glm" (Default analysis = "none").}
 
 \item{envir}{A matrix with environmental variables for each population, with variables as columns and localities as rows. See Details and Examples.}
 
-\item{choices.analysis}{Numeric vector to choose the haplotypic/genetic vectors used in analysis. See Details and Examples.}
+\item{formula}{An object of class \code{\link{formula}}. Used in "adonis" or "glm" analysis. See Details and Examples.}
 
 \item{runs}{Number of permutations for assessing probability of type I error.}
 
@@ -59,89 +57,71 @@ GenVectors(pop, distances, checkdata = TRUE, method = "euclidean",
 A list with: \item{call}{Arguments used.} 
 \item{haplotypes}{A list with haplotypes index that identify each observation that share the same haplotype.} 
 \item{haplotype.distances}{A matrix with pairwise distances between haplotypes.} 
-\item{SNP.distances}{A matrix with pairwise distances between alleles.} 
+\item{SNP.distances}{A matrix with pairwise distances between alleles.}
+\item{genetic.distances}{A matrix with pairwise genetic distances.}
 \item{individual.per.haplotype}{A matrix with individuals per haplotype.} 
 \item{haplotype.per.locality}{A matrix with frequency of each haplotype per locality (\bold{\eqn{W}}).} 
-\item{vectors}{Haplotypic/genetic eigenvectors (haplovectors, snpvectors or geneticvectors).} 
+\item{vectors}{Haplotypic/SNP/genetic eigenvectors (haplovectors, snpvectors or geneticvectors).} 
 \item{values}{Eigenvalues, relative eigenvalues and cumulative relative eigenvalues.} 
-\item{correlations}{Correlations between haplotypic/genetic eigenvectors and haplotypes/alleles.} 
-\item{P}{Matrix of haplotypic/genetic composition (\bold{\eqn{P}}).} 
+\item{correlations}{Correlations between haplotypic/SNP/genetic eigenvectors and haplotypes/alleles.} 
+\item{P}{Matrix of haplotypic/SNP/genetic composition (\bold{\eqn{P}}).} 
 \item{scores}{Scores for biplots.} 
-\item{model}{The observed model returned by FUN.}
+\item{model}{The observed model.}
 \item{fun}{The funtion used.}
-\item{statistic.null.site}{A matrix with null statistic for site shuffle null model.}
-\item{statistic.null.taxa}{A matrix with null statistic for taxa shuffle null model.}
+\item{statistic.null.turnover}{A matrix with null statistic for turnover null model.}
+\item{statistic.null.divergence}{A matrix with null statistic for divergence null model.}
 \item{statistic.obs}{Observed statistic, F value to predefined function.}
-\item{p.site.shuffle}{The p value for the site shuffle null model.}
-\item{p.taxa.shuffle}{The p value for the taxa shuffle null model.}
+\item{p.turnover}{The p value for the turnover null model.}
+\item{p.divergence}{The p value for the divergence null model.}
 }
 \description{
-Function to extract haplotypic/genetic eigenvectors and perform null model-based tests.
+Function to extract haplotypic/SNP/genetic eigenvectors and perform null model-based tests.
 }
 \details{
-HaploVectors and SNPVectors are two complementary functions to extract haplotypic/genetic eigenvectors 
+HaploVectors and SNPVectors are two complementary functions to extract haplotypic/SNP eigenvectors 
 and perform null model-based tests. 
 
 HaploVectors function is based in set of DNA sequences (class "DNAbin" or "haplotype") as used by the 
 function \code{\link{haplotype}} and pairwise distances from DNA sequences as used in \code{\link{dist.dna}}. 
 SNPVectors function is based in set of individual genotypes (class "genind") as pairwise distances 
-between allelesused based in \code{\link{propShared}} function.
+between alleles based in \code{\link{propShared}} function.
 
 The function HaploVectors extract haplotypic eigenvectors and perform null model tests. The argument \emph{analysis} 
-specify the type of analysis performed. When \emph{analysis} is equal "matrix" the analysis is performed 
+specify the type of analysis performed. When \emph{analysis} is equal "adonis" the analysis is performed 
 in matrix of haplotypic composition (using \code{\link{matrix.p.sig}} function). The argument \emph{formula} 
-can be specified, where the left hand side gives the resemblance data, right hand side gives the variables. 
+must be specified, where the left hand side gives the resemblance data, right hand side gives the variables. 
 The resemblance data is internally named \emph{p.dist}, thus formula is an expression of the form 
-\emph{p.dist ~ model}. If \emph{analysis} is equal "vector" it is performed with haplovector 
-(using \code{\link{pcps.sig}} function). In this case, the argument \emph{formula} can be 
+\emph{p.dist ~ predictors}. If \emph{analysis} is equal "glm" it is performed with haplovector 
+(using \code{\link{pcps.sig}} function). In this case, the argument \emph{formula} must be 
 specified, where the left hand side gives the vectors used, right hand side gives the variables. The vectors 
 are internally named sequentially \emph{haplovector.1}, \emph{haplovector.2}, \emph{haplovector.3} and so on. 
-Thus, formula is an expression of the form \emph{haplovector.1 ~ model}. 
+Thus, formula is an expression of the form \emph{haplovector.1 ~ predictors}. 
 
 The function SNPVectors work same way, however extract genetic eigenvectors based in distances between alleles. 
 Similarly the argument \emph{analysis} specify the type of analysis performed. When \emph{analysis} is equal 
-"matrix" the analysis is performed in matrix of genetic composition and the argument \emph{formula} can be 
-specified in the same way the HaploVectors function.  If \emph{analysis} is equal "vector" it is performed 
-with SNPvector and the argument \emph{formula} can be specified. This case the vectors are internally named 
+"adonis" the analysis is performed in matrix of genetic composition and the argument \emph{formula} must be 
+specified in the same way the HaploVectors function.  If \emph{analysis} is equal "glm" it is performed 
+with SNPvector and the argument \emph{formula} must be specified. This case the vectors are internally named 
 sequentially \emph{SNPvector.1}, \emph{SNPvector.2}, \emph{SNPvector.3} and so on. 
-Thus, formula is an expression of the form \emph{SNPvector.1 ~ model}. 
+Thus, formula is an expression of the form \emph{SNPvector.1 ~ predictors}. 
 
 A third function, called a GenVectors, is also available. In this case, the matrices of distances 
 between individuals can be supplied directly. This function work same way that other function, but the vectors 
 are internally named sequentially \emph{geneticvector.1}, \emph{geneticvector.2}, \emph{geneticvector.3} and so on.
-
-All functions and methods available in \code{\link{matrix.p.sig}} or \code{\link{pcps.sig}} could be used here, 
-considering the differences mentioned above. 
-
-\strong{The argument analysis.method}
-
-The type of analysis performed by this function is specified using the argument \emph{analysis.method}. The current version 
-of package includes ten predefined function, however additional small functions can be easy specify. All
-this function uses the environmental variables to analyze the association between haplotypic/genetic
-composition and environmental predictors. For haplotypic/genetic matrix analysis the predefined 
-functions available are \emph{"mantel"}, \emph{"adonis"}, \emph{"adonis2.global"} and \emph{"adonis2.margin"}. For haplovectors and SNPvectors
-analysis the predefined functions available are \emph{"glm"}, \emph{"rda"}, \emph{"gls.marginal"}, 
-\emph{"gls.sequential"}, \emph{"lme.marginal"} and \emph{"lme.sequential"}.
 }
 \examples{
 data(segv)
 
 HaploVectors(segv$segv.fas, segv$segv.pi, envir = segv$segv.envir)
 
-HaploVectors(segv$segv.fas, segv$segv.pi, analysis = "matrix", 
-             analysis.method = "adonis", envir = segv$segv.envir, 
-             formula = p.dist~R, runs = 99)
+HaploVectors(segv$segv.fas, segv$segv.pi, analysis = "adonis", 
+             envir = segv$segv.envir, formula = p.dist~R, runs = 99)
 
-HaploVectors(segv$segv.fas, segv$segv.pi, analysis = "matrix", 
-             analysis.method = "adonis2.global", envir = segv$segv.envir, 
-             formula = p.dist~R, runs = 99)
-
-HaploVectors(segv$segv.fas, segv$segv.pi, analysis = "vector", 
-             analysis.method = "glm", envir = segv$segv.envir, 
-             choices.analysis = 1, formula = haplovector.1~R, runs = 99)
+HaploVectors(segv$segv.fas, segv$segv.pi, analysis = "glm", 
+             envir = segv$segv.envir, formula = haplovector.1~R, runs = 99)
 
 
 }
 \seealso{
-\code{\link{HaploNetDist}}, \code{\link{SNPDist}}, \code{\link{matrix.p.sig}}, \code{\link{pcps.sig}}
+\code{\link{HaploDist}}, \code{\link{SNPDist}}, \code{\link{matrix.p.sig}}, \code{\link{pcps.sig}}
 }

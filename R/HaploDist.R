@@ -1,6 +1,6 @@
-#' @title HaploNetDist 
+#' @title HaploDist 
 #' 
-#' @description Function to extract haplotypes and compute pairwise distances between haplotypes.
+#' @description Function to extract haplotypes and compute pairwise distances between haplotypes. This function use the functions \code{\link{haplotype}} of package pagas and \code{\link{dist.dna}} of package ape.
 #' 
 #' @encoding UTF-8
 #' @importFrom ape dist.dna
@@ -15,9 +15,9 @@
 #' @seealso \code{\link{HaploVectors}}
 #' @examples 
 #' data(segv)
-#' HaploNetDist(segv$segv.fas)
+#' HaploDist(segv$segv.fas)
 #' @export
-HaploNetDist <- function(x, dist.model = "N", ...){
+HaploDist <- function(x, dist.model = "N", ...){
   res <- list(call = match.call())
   n.ind.x <- length(x)
   names.ind.x <- names(x)

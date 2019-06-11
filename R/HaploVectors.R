@@ -1,8 +1,8 @@
 #' @rdname GenVectors
 #' @encoding UTF-8
 #' @export
-HaploVectors <- function(x, pop, dist.model = "N", checkdata = TRUE, log.frequencies = TRUE, method = "euclidean", squareroot.dis = TRUE, choices = c(1, 2), analysis = "none", analysis.method = "none", envir, choices.analysis, runs = 999, ...){
-	res <- HaploNetDist(x, dist.model)
+HaploVectors <- function(x, pop, dist.model = "N", checkdata = TRUE, log.frequencies = TRUE, method = "euclidean", squareroot.dis = TRUE, choices = c(1, 2), analysis = "none", envir, formula, runs = 999, ...){
+	res <- HaploDist(x, dist.model)
 	res$call <- match.call()
 	if (checkdata) {
 	  if (is.null(colnames(pop))) {
@@ -15,6 +15,8 @@ HaploVectors <- function(x, pop, dist.model = "N", checkdata = TRUE, log.frequen
 	    stop("\n Individuals not found on pop matrix\n")
 	  }
 	  pop <- as.matrix(pop[, match.names, drop = FALSE])
+	} else{
+	  pop <- as.matrix(pop)
 	}
 	res$haplotype.per.locality <- pop%*%res$individual.per.haplotype
 	if(log.frequencies){
@@ -27,22 +29,25 @@ HaploVectors <- function(x, pop, dist.model = "N", checkdata = TRUE, log.frequen
 	colnames(res.eigen$correlations) <- sub("pcps", "haplovector", colnames(res.eigen$correlations))
 	res <- c(res, res.eigen)
 	res$scores <- summary(res.eigen, choices = choices)$scores$scores.species
-	# Analysis <- c("none", "haplotypic", "haplovector")
-	Analysis <- c("none", "matrix", "vector")
+	FUN <- PCPS::select.pcpsmethod(analysis)
+	Analysis <- c("none", "adonis", "glm")
 	analysis <- pmatch(analysis, Analysis)
 	if (length(analysis) != 1 | (is.na(analysis[1]))) {
 	  stop("\n Invalid analysis. Only one argument is accepted in analysis \n")
 	}
-	FUN <- PCPS::select.pcpsmethod(analysis.method)
 	if(analysis!=1 & !is.null(FUN)){
 	  if(analysis == 2){
-	    test <- PCPS::matrix.p.sig(res$haplotype.per.locality, phylodist = res$haplotype.distances, method.p = method, sqrt.p = squareroot.dis, FUN = FUN, envir = envir, runs = runs, newname = "haplovector", ...)
+	    test <- PCPS::matrix.p.sig(res$haplotype.per.locality, phylodist = res$haplotype.distances, method.p = method, sqrt.p = squareroot.dis, FUN = FUN, envir = envir, runs = runs, newname = "haplovector", formula = formula, ...)
 	  }
 	  if(analysis == 3){
-	    test <- PCPS::pcps.sig(res$haplotype.per.locality, phylodist = res$haplotype.distances, method = method, squareroot = squareroot.dis, choices = choices.analysis, FUN = FUN, envir = envir, runs = runs, newname = "haplovector", ...)
+	    test <- PCPS::pcps.sig(res$haplotype.per.locality, phylodist = res$haplotype.distances, method = method, squareroot = squareroot.dis, choices = choices, FUN = FUN, envir = envir, runs = runs, newname = "haplovector", formula = formula, ...)
 	  }
 	  test$call <- NULL
 	  test$PCPS.obs <- NULL
+	  names(test) <- sub("null.site", "null.turnover", names(test))
+	  names(test) <- sub("null.taxa", "null.divergence", names(test))
+	  names(test) <- sub("site.shuffle", "turnover", names(test))
+	  names(test) <- sub("taxa.shuffle", "divergence", names(test))
 	  res <- c(res, test)
 	}
 	class(res) <- "GenVectors"

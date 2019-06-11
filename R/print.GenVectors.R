@@ -41,10 +41,10 @@ print.GenVectors <- function(x, ...){
     print(x$model, ...)
     cat("\n$obs.statistic:\n")
     print(x$obs.statistic, ...)
-    cat("\n$p.site.shuffle:\n")
-    print(x$p.site.shuffle, ...)
-    cat("\n$p.taxa.shuffle:\n")
-    print(x$p.taxa.shuffle, ...)  
+    cat("\n$p.turnover:\n")
+    print(x$p.turnover, ...)
+    cat("\n$p.divergence:\n")
+    print(x$p.divergence, ...)  
   }
   invisible(x)
 }
