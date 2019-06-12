@@ -10,11 +10,11 @@
 #' @param x A set of DNA sequences (class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}} or a set of individual genotypes (an object of class \code{\link{genind}}) as used by the function \code{\link{propShared}}.
 #' @param pop A matrix describing the incidence of each individual (columns) in a given locality (rows).
 #' @param dist.model A character string used by the function \code{\link{dist.dna}} to specify the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").
-#' @param log.frequencies Logical argument (TRUE or FALSE) to specify if transformation of natural logarithms plus one in haplotype per locality data must be applied  (Default log.frequencies = TRUE).
+#' @param log.frequencies Logical argument (TRUE or FALSE) to specify if transformation of natural logarithms plus one in haplotype per locality data must be applied  (Default log.frequencies = FALSE).
 #' @param checkdata Logical argument (TRUE or FALSE) to check if individual sequences in the pop data follow the same order as in the set of DNA sequences (Default checkdata = TRUE).
 #' @param method Dissimilarity index to apply in matrix P, which describes localities by their haplotypic/SNP/genetic composition, as accepted by vegdist function in vegan package (Default method = "euclidean").
 #' @param squareroot.dis Logical argument (TRUE or FALSE) to specify if use square root of dissimilarity index in matrix P (Default squareroot.dis = TRUE).
-#' @param choices Axes for re-scaling and to used in analysis. Choices must have length equal to two (Default choices = c(1, 2)).
+#' @param choices Axes for re-scaling. Choices must have length equal to two (Default choices = c(1, 2)).
 #' @param analysis Type of analysis, partial match to "none", "adonis" or "glm" (Default analysis = "none"). 
 #' @param envir A matrix with environmental variables for each population, with variables as columns and localities as rows. See Details and Examples.
 #' @param formula An object of class \code{\link{formula}}. Used in "adonis" or "glm" analysis. See Details and Examples.
@@ -55,7 +55,7 @@
 #' must be specified, where the left hand side gives the resemblance data, right hand side gives the variables. 
 #' The resemblance data is internally named \emph{p.dist}, thus formula is an expression of the form 
 #' \emph{p.dist ~ predictors}. If \emph{analysis} is equal "glm" it is performed with haplovector 
-#' (using \code{\link{pcps.sig}} function). In this case, the argument \emph{formula} must be 
+#' (using \code{\link{pcps.sig}} function). In this case, the argument \emph{formula} must also be 
 #' specified, where the left hand side gives the vectors used, right hand side gives the variables. The vectors 
 #' are internally named sequentially \emph{haplovector.1}, \emph{haplovector.2}, \emph{haplovector.3} and so on. 
 #' Thus, formula is an expression of the form \emph{haplovector.1 ~ predictors}. 
@@ -64,12 +64,12 @@
 #' Similarly the argument \emph{analysis} specify the type of analysis performed. When \emph{analysis} is equal 
 #' "adonis" the analysis is performed in matrix of genetic composition and the argument \emph{formula} must be 
 #' specified in the same way the HaploVectors function.  If \emph{analysis} is equal "glm" it is performed 
-#' with SNPvector and the argument \emph{formula} must be specified. This case the vectors are internally named 
+#' with SNPvector and the argument \emph{formula} must also be specified. This case the vectors are internally named 
 #' sequentially \emph{SNPvector.1}, \emph{SNPvector.2}, \emph{SNPvector.3} and so on. 
 #' Thus, formula is an expression of the form \emph{SNPvector.1 ~ predictors}. 
 #' 
 #' A third function, called a GenVectors, is also available. In this case, the matrices of distances 
-#' between individuals can be supplied directly. This function work same way that other function, but the vectors 
+#' between individuals can be supplied directly. This function work same way that other two functions, but the vectors 
 #' are internally named sequentially \emph{geneticvector.1}, \emph{geneticvector.2}, \emph{geneticvector.3} and so on.
 #' 
 #' 
@@ -77,7 +77,8 @@
 #' @examples 
 #' data(segv)
 #' 
-#' HaploVectors(segv$segv.fas, segv$segv.pi, envir = segv$segv.envir)
+#' HaploVectors(segv$segv.fas, segv$segv.pi, envir = segv$segv.envir,
+#'              choices = c(1,2))
 #' 
 #' HaploVectors(segv$segv.fas, segv$segv.pi, analysis = "adonis", 
 #'              envir = segv$segv.envir, formula = p.dist~R, runs = 99)
@@ -114,18 +115,22 @@ GenVectors <- function(pop, distances, checkdata = TRUE, method = "euclidean", s
   colnames(res.eigen$correlations) <- sub("pcps", "geneticvector", colnames(res.eigen$correlations))
   res <- c(res, res.eigen)
   res$scores <- summary(res.eigen, choices = choices)$scores$scores.species
-  FUN <- PCPS::select.pcpsmethod(analysis)
   Analysis <- c("none", "adonis", "glm")
-  analysis <- pmatch(analysis, Analysis)
-  if (length(analysis) != 1 | (is.na(analysis[1]))) {
+  Analysis <- pmatch(analysis, Analysis)
+  if (length(Analysis) != 1 | (is.na(Analysis[1]))) {
     stop("\n Invalid analysis. Only one argument is accepted in analysis \n")
   }
-  if(analysis!=1 & !is.null(FUN)){
-    if(analysis == 2){
+  if(Analysis==2){
+    analysis <- "adonis2.margin"
+  }
+  FUN <- PCPS::select.pcpsmethod(analysis)
+  if(Analysis!=1 & !is.null(FUN)){
+    if(Analysis == 2){
       test <- PCPS::matrix.p.sig(res$pop, phylodist = res$genetic.distances, method.p = method, sqrt.p = squareroot.dis, FUN = FUN, envir = envir, runs = runs, newname = "geneticvector", formula = formula, ...)
     }
-    if(analysis == 3){
-      test <- PCPS::pcps.sig(res$pop, phylodist = res$genetic.distances, method = method, squareroot = squareroot.dis, choices = choices, FUN = FUN, envir = envir, runs = runs, newname = "geneticvector", formula = formula, ...)
+    if(Analysis == 3){
+      choices.analysis <- PCPS::check.formula(formula, colnames(res$vectors))
+      test <- PCPS::pcps.sig(res$pop, phylodist = res$genetic.distances, method = method, squareroot = squareroot.dis, choices = choices.analysis, FUN = FUN, envir = envir, runs = runs, newname = "geneticvector", formula = formula, ...)
     }
     test$call <- NULL
     test$PCPS.obs <- NULL

@@ -24,18 +24,22 @@ SNPVectors <- function(x, pop, checkdata = TRUE, method = "euclidean", squareroo
   colnames(res.eigen$correlations) <- sub("pcps", "SNPvector", colnames(res.eigen$correlations))
   res <- c(res, res.eigen)
   res$scores <- summary(res.eigen, choices = choices)$scores$scores.species
-  FUN <- PCPS::select.pcpsmethod(analysis)
   Analysis <- c("none", "adonis", "glm")
-  analysis <- pmatch(analysis, Analysis)
-  if (length(analysis) != 1 | (is.na(analysis[1]))) {
+  Analysis <- pmatch(analysis, Analysis)
+  if (length(Analysis) != 1 | (is.na(Analysis[1]))) {
     stop("\n Invalid analysis. Only one argument is accepted in analysis \n")
   }
-  if(analysis!=1 & !is.null(FUN)){
-    if(analysis == 2){
+  if(Analysis==2){
+    analysis <- "adonis2.margin"
+  }
+  FUN <- PCPS::select.pcpsmethod(analysis)
+  if(Analysis!=1 & !is.null(FUN)){
+    if(Analysis == 2){
       test <- PCPS::matrix.p.sig(pop, phylodist = res$SNP.distances, method.p = method, sqrt.p = squareroot.dis, FUN = FUN, envir = envir, runs = runs, newname = "SNPvector", formula = formula, ...)
     }
-    if(analysis == 3){
-      test <- PCPS::pcps.sig(pop, phylodist = res$SNP.distances, method = method, squareroot = squareroot.dis, choices = choices, FUN = FUN, envir = envir, runs = runs, newname = "SNPvector", formula = formula, ...)
+    if(Analysis == 3){
+      choices.analysis <- PCPS::check.formula(formula, colnames(res$vectors))
+      test <- PCPS::pcps.sig(pop, phylodist = res$SNP.distances, method = method, squareroot = squareroot.dis, choices = choices.analysis, FUN = FUN, envir = envir, runs = runs, newname = "SNPvector", formula = formula, ...)
     }
     test$call <- NULL
     test$PCPS.obs <- NULL

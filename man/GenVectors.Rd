@@ -14,7 +14,7 @@ SNPVectors(x, pop, checkdata = TRUE, method = "euclidean",
   formula, runs = 999, ...)
 
 HaploVectors(x, pop, dist.model = "N", checkdata = TRUE,
-  log.frequencies = TRUE, method = "euclidean",
+  log.frequencies = FALSE, method = "euclidean",
   squareroot.dis = TRUE, choices = c(1, 2), analysis = "none", envir,
   formula, runs = 999, ...)
 
@@ -35,7 +35,7 @@ GenVectors(pop, distances, checkdata = TRUE, method = "euclidean",
 
 \item{squareroot.dis}{Logical argument (TRUE or FALSE) to specify if use square root of dissimilarity index in matrix P (Default squareroot.dis = TRUE).}
 
-\item{choices}{Axes for re-scaling and to used in analysis. Choices must have length equal to two (Default choices = c(1, 2)).}
+\item{choices}{Axes for re-scaling. Choices must have length equal to two (Default choices = c(1, 2)).}
 
 \item{analysis}{Type of analysis, partial match to "none", "adonis" or "glm" (Default analysis = "none").}
 
@@ -49,7 +49,7 @@ GenVectors(pop, distances, checkdata = TRUE, method = "euclidean",
 
 \item{dist.model}{A character string used by the function \code{\link{dist.dna}} to specify the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").}
 
-\item{log.frequencies}{Logical argument (TRUE or FALSE) to specify if transformation of natural logarithms plus one in haplotype per locality data must be applied  (Default log.frequencies = TRUE).}
+\item{log.frequencies}{Logical argument (TRUE or FALSE) to specify if transformation of natural logarithms plus one in haplotype per locality data must be applied  (Default log.frequencies = FALSE).}
 
 \item{distances}{Matrix containing genetic distances between individuals.}
 }
@@ -92,7 +92,7 @@ in matrix of haplotypic composition (using \code{\link{matrix.p.sig}} function).
 must be specified, where the left hand side gives the resemblance data, right hand side gives the variables. 
 The resemblance data is internally named \emph{p.dist}, thus formula is an expression of the form 
 \emph{p.dist ~ predictors}. If \emph{analysis} is equal "glm" it is performed with haplovector 
-(using \code{\link{pcps.sig}} function). In this case, the argument \emph{formula} must be 
+(using \code{\link{pcps.sig}} function). In this case, the argument \emph{formula} must also be 
 specified, where the left hand side gives the vectors used, right hand side gives the variables. The vectors 
 are internally named sequentially \emph{haplovector.1}, \emph{haplovector.2}, \emph{haplovector.3} and so on. 
 Thus, formula is an expression of the form \emph{haplovector.1 ~ predictors}. 
@@ -101,18 +101,19 @@ The function SNPVectors work same way, however extract genetic eigenvectors base
 Similarly the argument \emph{analysis} specify the type of analysis performed. When \emph{analysis} is equal 
 "adonis" the analysis is performed in matrix of genetic composition and the argument \emph{formula} must be 
 specified in the same way the HaploVectors function.  If \emph{analysis} is equal "glm" it is performed 
-with SNPvector and the argument \emph{formula} must be specified. This case the vectors are internally named 
+with SNPvector and the argument \emph{formula} must also be specified. This case the vectors are internally named 
 sequentially \emph{SNPvector.1}, \emph{SNPvector.2}, \emph{SNPvector.3} and so on. 
 Thus, formula is an expression of the form \emph{SNPvector.1 ~ predictors}. 
 
 A third function, called a GenVectors, is also available. In this case, the matrices of distances 
-between individuals can be supplied directly. This function work same way that other function, but the vectors 
+between individuals can be supplied directly. This function work same way that other two functions, but the vectors 
 are internally named sequentially \emph{geneticvector.1}, \emph{geneticvector.2}, \emph{geneticvector.3} and so on.
 }
 \examples{
 data(segv)
 
-HaploVectors(segv$segv.fas, segv$segv.pi, envir = segv$segv.envir)
+HaploVectors(segv$segv.fas, segv$segv.pi, envir = segv$segv.envir,
+             choices = c(1,2))
 
 HaploVectors(segv$segv.fas, segv$segv.pi, analysis = "adonis", 
              envir = segv$segv.envir, formula = p.dist~R, runs = 99)

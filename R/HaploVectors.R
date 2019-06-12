@@ -1,7 +1,7 @@
 #' @rdname GenVectors
 #' @encoding UTF-8
 #' @export
-HaploVectors <- function(x, pop, dist.model = "N", checkdata = TRUE, log.frequencies = TRUE, method = "euclidean", squareroot.dis = TRUE, choices = c(1, 2), analysis = "none", envir, formula, runs = 999, ...){
+HaploVectors <- function(x, pop, dist.model = "N", checkdata = TRUE, log.frequencies = FALSE, method = "euclidean", squareroot.dis = TRUE, choices = c(1, 2), analysis = "none", envir, formula, runs = 999, ...){
 	res <- HaploDist(x, dist.model)
 	res$call <- match.call()
 	if (checkdata) {
@@ -29,18 +29,22 @@ HaploVectors <- function(x, pop, dist.model = "N", checkdata = TRUE, log.frequen
 	colnames(res.eigen$correlations) <- sub("pcps", "haplovector", colnames(res.eigen$correlations))
 	res <- c(res, res.eigen)
 	res$scores <- summary(res.eigen, choices = choices)$scores$scores.species
-	FUN <- PCPS::select.pcpsmethod(analysis)
 	Analysis <- c("none", "adonis", "glm")
-	analysis <- pmatch(analysis, Analysis)
-	if (length(analysis) != 1 | (is.na(analysis[1]))) {
+	Analysis <- pmatch(analysis, Analysis)
+	if (length(Analysis) != 1 | (is.na(Analysis[1]))) {
 	  stop("\n Invalid analysis. Only one argument is accepted in analysis \n")
 	}
-	if(analysis!=1 & !is.null(FUN)){
-	  if(analysis == 2){
+	if(Analysis==2){
+	  analysis <- "adonis2.margin"
+	}
+	FUN <- PCPS::select.pcpsmethod(analysis)
+	if(Analysis!=1 & !is.null(FUN)){
+	  if(Analysis == 2){
 	    test <- PCPS::matrix.p.sig(res$haplotype.per.locality, phylodist = res$haplotype.distances, method.p = method, sqrt.p = squareroot.dis, FUN = FUN, envir = envir, runs = runs, newname = "haplovector", formula = formula, ...)
 	  }
-	  if(analysis == 3){
-	    test <- PCPS::pcps.sig(res$haplotype.per.locality, phylodist = res$haplotype.distances, method = method, squareroot = squareroot.dis, choices = choices, FUN = FUN, envir = envir, runs = runs, newname = "haplovector", formula = formula, ...)
+	  if(Analysis == 3){
+	    choices.analysis <- PCPS::check.formula(formula, colnames(res$vectors))
+	    test <- PCPS::pcps.sig(res$haplotype.per.locality, phylodist = res$haplotype.distances, method = method, squareroot = squareroot.dis, choices = choices.analysis, FUN = FUN, envir = envir, runs = runs, newname = "haplovector", formula = formula, ...)
 	  }
 	  test$call <- NULL
 	  test$PCPS.obs <- NULL
