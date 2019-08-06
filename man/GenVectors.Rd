@@ -25,7 +25,7 @@ GenVectors(pop, distances, checkdata = TRUE, method = "euclidean",
 \method{print}{GenVectors}(x, ...)
 }
 \arguments{
-\item{x}{A set of DNA sequences (class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}} or a set of individual genotypes (an object of class \code{\link{genind}}) as used by the function \code{\link{propShared}}.}
+\item{x}{A list with the set of DNA sequences (class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}} or a set of individual genotypes (an object of class \code{\link{genind}}) as used by the function \code{\link{propShared}}.}
 
 \item{pop}{A matrix describing the incidence of each individual (columns) in a given locality (rows).}
 

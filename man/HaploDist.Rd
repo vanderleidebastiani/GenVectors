@@ -8,7 +8,7 @@
 HaploDist(x, dist.model = "N", ...)
 }
 \arguments{
-\item{x}{A set of DNA sequences (as an object of class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}}.}
+\item{x}{A list with the set of DNA sequences (as an object of class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}}.}
 
 \item{dist.model}{A character string used by the function \code{\link{dist.dna}} to specify the evolutionary model to be used to compute pairwise distances from DNA sequences (default dist.model = "N").}
 

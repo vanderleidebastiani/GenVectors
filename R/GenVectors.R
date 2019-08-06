@@ -7,7 +7,7 @@
 #' @include HaploVectors.R
 #' @include SNPVectors.R
 #' @aliases HaploVectors SNPVectors GenVectors print.GenVectors
-#' @param x A set of DNA sequences (class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}} or a set of individual genotypes (an object of class \code{\link{genind}}) as used by the function \code{\link{propShared}}.
+#' @param x A list with the set of DNA sequences (class "DNAbin" or "haplotype") as used by the function \code{\link{haplotype}} or a set of individual genotypes (an object of class \code{\link{genind}}) as used by the function \code{\link{propShared}}.
 #' @param pop A matrix describing the incidence of each individual (columns) in a given locality (rows).
 #' @param dist.model A character string used by the function \code{\link{dist.dna}} to specify the evolutionary model to be used to computes pairwise distances from DNA sequences (default dist.model = "N").
 #' @param log.frequencies Logical argument (TRUE or FALSE) to specify if transformation of natural logarithms plus one in haplotype per locality data must be applied  (Default log.frequencies = FALSE).
